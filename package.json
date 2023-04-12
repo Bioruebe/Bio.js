@@ -1,0 +1,79 @@
+{
+  "name": "biolib",
+  "version": "1.0.0",
+  "description": "Bioruebe's standard library, Javascript edition",
+  "main": "dist/main/index.js",
+  "typings": "dist/main/index.d.ts",
+  "module": "dist/module/index.js",
+  "repository": "https://github.com/Bioruebe/Bio.js",
+  "homepage": "https://github.com/Bioruebe/Bio.js",
+  "type": "module",
+  "author": "bioruebe",
+  "license": "MIT",
+  "keywords": [],
+  "scripts": {
+    "start": "watch",
+    "build": "npm run build:main && npm run build:module",
+    "build:main": "tsc -p tsconfig.json",
+    "build:module": "tsc -p tsconfig.module.json",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "watch": "vitest"
+  },
+  "engines": {
+    "node": ">=10"
+  },
+  "devDependencies": {
+    "@types/node": "^18.15.11",
+    "@vitest/coverage-c8": "^0.29.8",
+    "ts-node": "^10",
+    "typescript": "^5.0.3",
+    "vitest": "^0.29.8"
+  },
+  "files": [
+    "dist/main",
+    "dist/module",
+    "!**/*.spec.*",
+    "!**/*.json",
+    "CHANGELOG.md",
+    "LICENSE",
+    "README.md"
+  ],
+  "exports": {
+    ".": {
+      "require": "./dist/main/index.js",
+      "import": "./dist/module/index.js",
+      "types": "./dist/main/index.d.ts"
+    },
+    "./array": {
+      "require": "./dist/main/lib/array.js",
+      "import": "./dist/module/lib/array.js",
+      "types": "./dist/main/lib/array.d.ts"
+    },
+    "./math": {
+      "require": "./dist/main/lib/math.js",
+      "import": "./dist/module/lib/math.js",
+      "types": "./dist/main/lib/math.d.ts"
+    },
+    "./object": {
+      "require": "./dist/main/lib/object.js",
+      "import": "./dist/module/lib/object.js",
+      "types": "./dist/main/lib/object.d.ts"
+    },
+    "./promise": {
+      "require": "./dist/main/lib/promise.js",
+      "import": "./dist/module/lib/promise.js",
+      "types": "./dist/main/lib/promise.d.ts"
+    },
+    "./string": {
+      "require": "./dist/main/lib/string.js",
+      "import": "./dist/module/lib/string.js",
+      "types": "./dist/main/lib/string.d.ts"
+    },
+    "./value": {
+      "require": "./dist/main/lib/value.js",
+      "import": "./dist/module/lib/value.js",
+      "types": "./dist/main/lib/value.d.ts"
+    }
+  }
+}
