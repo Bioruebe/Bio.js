@@ -31,5 +31,16 @@
   },
   "include": ["src/**/*.ts"],
   "exclude": ["node_modules/**", "src/**/*.spec.ts"],
-  "compileOnSave": false
+  "compileOnSave": false,
+  "typedocOptions": {
+    "entryPoints": [
+      "src/lib/array.ts",
+      "src/lib/math.ts",
+      "src/lib/object.ts",
+      "src/lib/promise.ts",
+      "src/lib/string.ts",
+      "src/lib/value.ts"
+    ],
+    "out": "build/docs"
+  }
 }
