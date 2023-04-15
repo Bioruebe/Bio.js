@@ -20,3 +20,5 @@ or from the main bundle
 ``` typescript
 import { isEmptyArray } from "biolib";
 ```
+### Documentation
+The full API documentation [can be found here](https://bioruebe.github.io/Bio.js)
