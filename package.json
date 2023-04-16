@@ -1,25 +1,24 @@
 {
   "name": "biolib",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Bioruebe's standard library, Javascript edition",
-  "main": "dist/main/index.js",
-  "typings": "dist/main/index.d.ts",
-  "module": "dist/module/index.js",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "typings": "dist/esm/index.d.ts",
   "repository": "https://github.com/Bioruebe/Bio.js",
   "homepage": "https://github.com/Bioruebe/Bio.js",
-  "type": "module",
   "author": "bioruebe",
   "license": "MIT",
   "keywords": [],
   "scripts": {
     "start": "watch",
-	"watch": "vitest",
-    "build": "npm run build:main && npm run build:module",
-    "build:main": "tsc -p tsconfig.json",
-    "build:module": "tsc -p tsconfig.module.json",
+    "watch": "vitest",
+    "build": "npm run build:cjs && npm run build:esm && node after-build.js",
+    "build:cjs": "tsc -p tsconfig.cjs.json",
+    "build:esm": "tsc -p tsconfig.json",
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",
-	"doc": "typedoc"
+    "doc": "typedoc"
   },
   "engines": {
     "node": ">=10"
@@ -33,49 +32,48 @@
     "vitest": "^0.29.8"
   },
   "files": [
-    "dist/main",
-    "dist/module",
+    "dist/cjs",
+    "dist/esm",
     "!**/*.spec.*",
-    "!**/*.json",
     "CHANGELOG.md",
     "LICENSE",
     "README.md"
   ],
   "exports": {
     ".": {
-      "require": "./dist/main/index.js",
-      "import": "./dist/module/index.js",
-      "types": "./dist/main/index.d.ts"
+      "require": "./dist/cjs/index.js",
+      "import": "./dist/esm/index.js",
+      "types": "./dist/esm/index.d.ts"
     },
     "./array": {
-      "require": "./dist/main/lib/array.js",
-      "import": "./dist/module/lib/array.js",
-      "types": "./dist/main/lib/array.d.ts"
+      "require": "./dist/cjs/lib/array.js",
+      "import": "./dist/esm/lib/array.js",
+      "types": "./dist/esm/lib/array.d.ts"
     },
     "./math": {
-      "require": "./dist/main/lib/math.js",
-      "import": "./dist/module/lib/math.js",
-      "types": "./dist/main/lib/math.d.ts"
+      "require": "./dist/cjs/lib/math.js",
+      "import": "./dist/esm/lib/math.js",
+      "types": "./dist/esm/lib/math.d.ts"
     },
     "./object": {
-      "require": "./dist/main/lib/object.js",
-      "import": "./dist/module/lib/object.js",
-      "types": "./dist/main/lib/object.d.ts"
+      "require": "./dist/cjs/lib/object.js",
+      "import": "./dist/esm/lib/object.js",
+      "types": "./dist/esm/lib/object.d.ts"
     },
     "./promise": {
-      "require": "./dist/main/lib/promise.js",
-      "import": "./dist/module/lib/promise.js",
-      "types": "./dist/main/lib/promise.d.ts"
+      "require": "./dist/cjs/lib/promise.js",
+      "import": "./dist/esm/lib/promise.js",
+      "types": "./dist/esm/lib/promise.d.ts"
     },
     "./string": {
-      "require": "./dist/main/lib/string.js",
-      "import": "./dist/module/lib/string.js",
-      "types": "./dist/main/lib/string.d.ts"
+      "require": "./dist/cjs/lib/string.js",
+      "import": "./dist/esm/lib/string.js",
+      "types": "./dist/esm/lib/string.d.ts"
     },
     "./value": {
-      "require": "./dist/main/lib/value.js",
-      "import": "./dist/module/lib/value.js",
-      "types": "./dist/main/lib/value.d.ts"
+      "require": "./dist/cjs/lib/value.js",
+      "import": "./dist/esm/lib/value.js",
+      "types": "./dist/esm/lib/value.d.ts"
     }
   }
 }

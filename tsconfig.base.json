@@ -1,0 +1,52 @@
+{
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": "src",
+    "declaration": true,
+    "esModuleInterop": true,
+    "incremental": true,
+    "inlineSourceMap": false,
+    "listEmittedFiles": false,
+    "listFiles": false,
+    "moduleResolution": "node",
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "pretty": true,
+    "resolveJsonModule": true,
+    "rootDir": "src",
+    "strict": true,
+    "traceResolution": false,
+    "lib": [
+      "esnext",
+      "dom"
+    ],
+    "types": [
+      "node"
+    ],
+    "typeRoots": [
+      "node_modules/@types",
+      "src/types"
+    ]
+  },
+  "include": [
+    "src/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules/**",
+    "src/**/*.spec.ts"
+  ],
+  "compileOnSave": false,
+  "typedocOptions": {
+    "entryPoints": [
+      "src/lib/array.ts",
+      "src/lib/math.ts",
+      "src/lib/object.ts",
+      "src/lib/promise.ts",
+      "src/lib/string.ts",
+      "src/lib/value.ts"
+    ],
+    "out": "build/docs"
+  }
+}
