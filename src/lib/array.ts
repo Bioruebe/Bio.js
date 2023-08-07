@@ -65,8 +65,8 @@ export function includesCaseInsensitive(array: string[], searchString: string): 
  * @param object The object to test
  * @returns True or false
  */
- export function isEmptyArray(object: any) {
-  return Array.isArray(object) && object.length < 1;
+export function isEmptyArray(object: any) {
+	return Array.isArray(object) && object.length < 1;
 }
 
 /**
@@ -74,7 +74,7 @@ export function includesCaseInsensitive(array: string[], searchString: string): 
  * @param array The array to clean
  * @returns A new array without duplicate values
  */
-export function removeDuplicates(array: any[]) {
+export function removeDuplicates<T>(array: T[]) {
 	return Array.from(new Set(array));
 }
 
@@ -83,7 +83,7 @@ export function removeDuplicates(array: any[]) {
  * @param array The array to clean
  * @returns A new array without duplicates and empty values
  */
-export function removeDuplicatesAndEmpty(array: any[]) {
+export function removeDuplicatesAndEmpty<T>(array: T[]) {
 	return removeEmpty(removeDuplicates(array));
 }
 
@@ -92,7 +92,7 @@ export function removeDuplicatesAndEmpty(array: any[]) {
  * @param array The array to clean
  * @returns A new array with empty values removed.
  */
-export function removeEmpty(array: any[]) {
+export function removeEmpty<T>(array: T[]) {
 	return array.filter((el) => !isEmpty(el));
 }
 
@@ -102,9 +102,9 @@ export function removeEmpty(array: any[]) {
  * @param accessor A function, which returns the object's property value to compare for duplicates or a string with the property name
  * @returns A new array without duplicates
  */
-export function removeDuplicatesBy(array: Object[], accessor: string | ((element: Object) => any)) {
-	let unique = new Set<Object>();
-	const accessorFunction = (typeof accessor === "string")? (element: Object) => element[accessor]: accessor;
+export function removeDuplicatesBy<T extends Object>(array: T[], accessor: string | ((element: T) => any)) {
+	let unique = new Set<T>();
+	const accessorFunction = (typeof accessor === "string")? (element: T) => element[accessor]: accessor;
 
 	return array.filter((x) => {
 		const value = accessorFunction(x);
