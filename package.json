@@ -1,6 +1,6 @@
 {
   "name": "biolib",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "Bioruebe's standard library, Javascript edition",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
