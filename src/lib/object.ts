@@ -3,6 +3,16 @@ import { isEmpty } from "./value";
 
 
 /**
+ * Return a shallow copy of the given object with only the properties that match the given condition.
+ * @param obj The object to filter values from
+ * @param condition The condition to filter by
+ * @returns A shallow copy of the object with only the entries that match the condition
+ */
+export function filterValues(obj: Record<string, any>, condition: (value: any) => boolean) {
+	return Object.fromEntries(Object.entries(obj).filter(([_, v]) => condition(v)));
+}
+
+/**
  * Gets a property value of an object. This function supports nested properties via dot notation, e.g. `date.last_changed`.
  * @param obj The object to get the property from
  * @param property The name of the property to get
@@ -92,6 +102,25 @@ export function propertyIs(obj: Record<string, any>, property: string, value: an
 	}
 
 	return false;
+}
+
+/**
+ * Return a shallow copy of the given object with all empty values
+ * (null, undefined, empty string, empty object, empty array) removed.
+ * @param obj The object to remove empty values from
+ * @returns A shallow copy of the object without properties with empty values
+ */
+export function removeEmptyValues(obj: Record<string, any>) {
+	return filterValues(obj, (v) => !isEmpty(v));
+}
+
+/**
+ * Return a shallow copy of the given object with all null values removed.
+ * @param obj The object to remove null values from
+ * @returns A shallow copy of the object without properties with null values
+ */
+export function removeNullValues(obj: Record<string, any>) {
+	return filterValues(obj, value => value !== null);
 }
 
 /**

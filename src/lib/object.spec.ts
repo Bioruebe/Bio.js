@@ -1,6 +1,28 @@
 import { describe, expect, test } from "vitest";
-import { getProperty, hasAnyProperty, hasProperty, hasValidProperty, isEmptyObject, propertyIs, removeProperties } from "./object";
+import { filterValues, getProperty, hasAnyProperty, hasProperty, hasValidProperty, isEmptyObject, propertyIs, removeEmptyValues, removeNullValues, removeProperties } from "./object";
 
+
+describe("filterValues", () => {
+	test("should return an object with filtered values", () => {
+		const obj = { a: 1, b: 2, c: 3 };
+		expect(filterValues(obj, (v) => v > 1)).toEqual({ b: 2, c: 3 });
+		expect(filterValues(obj, (v) => v < 3)).toEqual({ a: 1, b: 2 });	
+	});
+
+	test("should return the same object if filter doesn't match", () => {
+		const obj = { a: 1, b: 2, c: 3 };
+		expect(filterValues(obj, (v) => v > 0)).toEqual(obj);
+	});
+
+	test("should return an empty object if all values are filtered", () => {
+		const obj = { a: 1, b: 2, c: 3 };
+		expect(filterValues(obj, (v) => v > 3)).toEqual({});
+	});
+
+	test("should return an empty object if object is empty", () => {
+		expect(filterValues({}, (v) => v > 0)).toEqual({});
+	});
+});
 
 describe("getProperty", () => {
 	const obj = { name: "John", age: 30 };
@@ -316,6 +338,38 @@ describe("propertyIs", () => {
 		expect(propertyIs(obj, "property.with.dots", "value")).toBe(true);
 		expect(propertyIs(obj, "property_with_underscores", "value")).toBe(true);
 		expect(propertyIs(obj, "property-with-dashes", "value")).toBe(true);
+	});
+});
+
+describe("removeNullValues", () => {
+	test("should return the object without null values", () => {
+		const obj = { a: 1, b: null };
+		expect(removeNullValues(obj)).toEqual({ a: 1 });
+	});
+
+	test("should return the object if there are no null values", () => {
+		const obj = { a: 1, b: 2 };
+		expect(removeNullValues(obj)).toEqual(obj);
+	});
+
+	test("should return the object if it is empty", () => {
+		expect(removeNullValues({})).toEqual({});
+	});
+});
+
+describe("removeEmptyValues", () => {
+	test("should return the object without empty values", () => {
+		const obj = { a: 1, b: "", c: null, d: undefined, e: [], f: {} };
+		expect(removeEmptyValues(obj)).toEqual({ a: 1 });
+	});
+
+	test("should return the object if there are no empty values", () => {
+		const obj = { a: 1, b: 2 };
+		expect(removeEmptyValues(obj)).toEqual(obj);
+	});
+
+	test("should return the object if it is empty", () => {
+		expect(removeEmptyValues({})).toEqual({});
 	});
 });
 
