@@ -1,6 +1,6 @@
 {
   "name": "biolib",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Bioruebe's standard library, Javascript edition",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
@@ -11,7 +11,8 @@
   "license": "MIT",
   "keywords": [],
   "scripts": {
-    "start": "watch",
+    "dev": "npm run watch",
+    "start": "npm run watch",
     "watch": "vitest",
     "build": "npm run build:cjs && npm run build:esm && node after-build.js",
     "build:cjs": "tsc -p tsconfig.cjs.json",
@@ -54,6 +55,11 @@
       "require": "./dist/cjs/lib/math.js",
       "import": "./dist/esm/lib/math.js",
       "types": "./dist/esm/lib/math.d.ts"
+    },
+    "./matrix": {
+      "require": "./dist/cjs/lib/matrix.js",
+      "import": "./dist/esm/lib/matrix.js",
+      "types": "./dist/esm/lib/matrix.d.ts"
     },
     "./object": {
       "require": "./dist/cjs/lib/object.js",
