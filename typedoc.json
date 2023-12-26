@@ -3,6 +3,7 @@
   "entryPoints": [
     "src/lib/array.ts",
     "src/lib/math.ts",
+	"src/lib/matrix.ts",
     "src/lib/object.ts",
     "src/lib/promise.ts",
     "src/lib/string.ts",

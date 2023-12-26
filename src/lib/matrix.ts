@@ -1,8 +1,8 @@
 /**
- * Add a row to a 2D array and return as a new array. If the index is negative, the row will be inserted from the end of the array.
+ * Add a column to a 2D array and return as a new array. If the index is negative, the column will be inserted from the end of the array.
  * @param array The array to add the column to
  * @param index The index to add the column at. If negative, the index will be counted from the end of the array.
- * @param value The value to add to the column. If an array is given, the values will be added to the column at the corresponding index. If a single value is given, the same value will be added to each row. Optional.
+ * @param value The value(s) to add to the column. If an array is given, the values will be added to the row at the corresponding index. If a single value is given, the same value will be used for each row. Optional.
  * @returns A new array with the column added
  */
 export function addColumn<T>(array: T[][], index: number, value?: T | T[]) {
