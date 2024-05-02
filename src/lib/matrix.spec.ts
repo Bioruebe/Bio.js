@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest";
-import { addColumn, removeColumn } from "./matrix";
+import { addColumn, moveColumn, removeColumn } from "./matrix";
 
 
 describe("addColumn", () => {
@@ -107,5 +107,68 @@ describe("removeColumn", () => {
 	test("should throw an error if the index is out of range", () => {
 		const array = [[1, 2, 3], [4, 5, 6], [7, 8, 9]];
 		expect(() => removeColumn(array, 3)).toThrowError(RangeError);
+	});
+});
+
+describe("moveColumn", () => {
+	test("should move a column to a new index", () => {
+		const array = [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12]];
+		const result = moveColumn(array, 1, 2);
+		expect(result).toEqual([[1, 3, 2, 4], [5, 7, 6, 8], [9, 11, 10, 12]]);
+	});
+
+	test("should move a column to the beginning", () => {
+		const array = [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12]];
+		const result = moveColumn(array, 3, 0);
+		expect(result).toEqual([[4, 1, 2, 3], [8, 5, 6, 7], [12, 9, 10, 11]]);
+	});
+
+	test("should move a column to the end", () => {
+		const array = [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12]];
+		const result = moveColumn(array, 1, 3);
+		expect(result).toEqual([[1, 3, 4, 2], [5, 7, 8, 6], [9, 11, 12, 10]]);
+	});
+
+	test("should return the same array if the indexes are the same", () => {
+		const array = [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12]];
+		const result = moveColumn(array, 1, 1);
+		expect(result).toEqual([[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12]]);
+	});
+
+	test("should move a column if index is negative", () => {
+		const array = [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12]];
+		const result = moveColumn(array, -1, 0);
+		expect(result).toEqual([[4, 1, 2, 3], [8, 5, 6, 7], [12, 9, 10, 11]]);
+	});
+
+	test("should move a column if to is negative", () => {
+		const array = [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12]];
+		const result = moveColumn(array, 1, -1);
+		expect(result).toEqual([[1, 3, 4, 2], [5, 7, 8, 6], [9, 11, 12, 10]]);
+	});
+
+	test("should throw an error if the array is empty", () => {
+		const array: number[][] = [];
+		expect(() => moveColumn(array, 0, 1)).toThrowError(RangeError);
+	});
+
+	test("should throw an error if index is out of range", () => {
+		const array = [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12]];
+		expect(() => moveColumn(array, 4, 1)).toThrowError(RangeError);
+	});
+
+	test("should throw an error if to is out of range", () => {
+		const array = [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12]];
+		expect(() => moveColumn(array, 1, 4)).toThrowError(RangeError);
+	});
+
+	test("should throw an error if negative index is out of range", () => {
+		const array = [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12]];
+		expect(() => moveColumn(array, -4, 1)).toThrowError(RangeError);
+	});
+
+	test("should throw an error if negative to is out of range", () => {
+		const array = [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12]];
+		expect(() => moveColumn(array, 1, -4)).toThrowError(RangeError);
 	});
 });

@@ -32,3 +32,30 @@ export function removeColumn<T>(array: T[][], index: number) {
 		return row.filter((_, i) => i !== indexToRemove);
 	});
 }
+
+/**
+ * Move a column in a 2D array to a new index and return as a new array. If the index is negative, the column will be moved from the end of the array.
+ * @param array The array to move the column in
+ * @param index The index of the column to move. If negative, the index will be counted from the end of the array.
+ * @param to The index to move the column to. If negative, the index will be counted from the end of the array.
+ * @returns A new array with the column moved
+ */
+export function moveColumn<T>(array: T[][], index: number, to: number) {
+	if (array.length < 1) throw new RangeError("Array must have at least one row");
+	if (index === to) return array;
+
+	const absoluteFrom = Math.abs(index);
+	const absoluteTo = Math.abs(to);
+	return array.map((row, i) => {
+		if (absoluteFrom >= row.length) throw new RangeError(`Index out of range for row ${i}`);
+		if (absoluteTo >= row.length) throw new RangeError(`To index out of range for row ${i}`);
+
+		const indexFrom = index < 0? row.length + index: index;
+		const indexTo = to < 0? row.length + to: to;
+
+		const newRow = [...row];
+		const [removedColumn] = newRow.splice(indexFrom, 1);
+		newRow.splice(indexTo, 0, removedColumn);
+		return newRow;
+	});
+}
