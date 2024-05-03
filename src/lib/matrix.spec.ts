@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest";
-import { addColumn, moveColumn, removeColumn } from "./matrix";
+import { addColumn, moveCell, moveColumn, removeColumn } from "./matrix";
 
 
 describe("addColumn", () => {
@@ -170,5 +170,98 @@ describe("moveColumn", () => {
 	test("should throw an error if negative to is out of range", () => {
 		const array = [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12]];
 		expect(() => moveColumn(array, 1, -4)).toThrowError(RangeError);
+	});
+});
+
+describe("moveCell", () => {
+	test("should move a cell within a row", () => {
+		const array = [[1, 2, 3], [4, 5, 6], [7, 8, 9]];
+		const result = moveCell(array, 0, 1, 0, 2);
+		expect(result).toEqual([[1, 3, 2], [4, 5, 6], [7, 8, 9]]);
+	});
+
+	test("should move a cell within a column", () => {
+		const array = [[1, 2, 3], [4, 5, 6], [7, 8, 9]];
+		const result = moveCell(array, 1, 0, 2, 0);
+		expect(result).toEqual([[1, 2, 3], [5, 6], [4, 7, 8, 9]]);
+	});
+
+	test("should move a cell to a new position", () => {
+		const array = [[1, 2, 3], [4, 5, 6], [7, 8, 9]];
+		const result = moveCell(array, 0, 1, 2, 0);
+		expect(result).toEqual([[1, 3], [4, 5, 6], [2, 7, 8, 9]]);
+	});
+
+	test("should move a cell to a new position with negative to index", () => {
+		const array = [[1, 2, 3], [4, 5, 6], [7, 8, 9]];
+		const result = moveCell(array, 0, 0, 0, -1);
+		expect(result).toEqual([[2, 3, 1], [4, 5, 6], [7, 8, 9]]);
+	});
+
+	test("should move a cell to a new position with negative from index", () => {
+		const array = [[1, 2, 3], [4, 5, 6], [7, 8, 9]];
+		const result = moveCell(array, 0, -1, 0, 0);
+		expect(result).toEqual([[3, 1, 2], [4, 5, 6], [7, 8, 9]]);
+	});
+
+	test("should move a cell to a new position with negative from and to indexes", () => {
+		const array = [[1, 2, 3], [4, 5, 6], [7, 8, 9]];
+		const result = moveCell(array, -1, -1, -1, 0);
+		expect(result).toEqual([[1, 2, 3], [4, 5, 6], [9, 7, 8]]);
+	});
+
+	test("should return the same array if the indexes are the same", () => {
+		const array = [[1, 2, 3], [4, 5, 6], [7, 8, 9]];
+		const result = moveCell(array, 1, 1, 1, 1);
+		expect(result).toEqual([[1, 2, 3], [4, 5, 6], [7, 8, 9]]);
+	});
+
+	test("should throw an error if the array is empty", () => {
+		const array: number[][] = [];
+		expect(() => moveCell(array, 0, 0, 0, 0)).toThrowError(RangeError);
+	});
+
+	test("should throw an error if fromRow is out of range", () => {
+		const array = [[1, 2, 3], [4, 5, 6]];
+		expect(() => moveCell(array, 2, 0, 0, 0)).toThrowError(RangeError);
+	});
+
+	test("should throw an error if fromColumn is out of range", () => {
+		const array = [[1, 2, 3], [4, 5, 6]];
+		expect(() => moveCell(array, 0, 3, 0, 0)).toThrowError(RangeError);
+	});
+
+	test("should throw an error if negative fromRow is out of range", () => {
+		const array = [[1, 2, 3], [4, 5, 6]];
+		expect(() => moveCell(array, -3, 0, 0, 0)).toThrowError(RangeError);
+	});
+
+	test("should throw an error if negative fromColumn is out of range", () => {
+		const array = [[1, 2, 3], [4, 5, 6]];
+		expect(() => moveCell(array, 0, -3, 0, 0)).toThrowError(RangeError);
+	});
+
+	test("should resize the array if toRow is out of range", () => {
+		const array = [[1, 2, 3], [4, 5, 6]];
+		const result = moveCell(array, 0, 0, 2, 0);
+		expect(result).toEqual([[2, 3], [4, 5, 6], [1]]);
+	});
+
+	test("should resize the array and create empty rows if toRow is out of range", () => {
+		const array = [[1, 2, 3], [4, 5, 6]];
+		const result = moveCell(array, 0, 0, 3, 0);
+		expect(result).toEqual([[2, 3], [4, 5, 6], [], [1]]);
+	});
+
+	test("should resize the array if toColumn is out of range", () => {
+		const array = [[1, 2, 3], [4, 5, 6]];
+		const result = moveCell(array, 0, 0, 0, 3, 0);
+		expect(result).toEqual([[2, 3, 0, 1], [4, 5, 6]]);
+	});
+
+	test("should resize the array and create empty cells if toColumn is out of range", () => {
+		const array = [[1, 2, 3], [4, 5, 6]];
+		const result = moveCell(array, 0, 0, 3, 0);
+		expect(result).toEqual([[2, 3], [4, 5, 6], [], [1]]);
 	});
 });

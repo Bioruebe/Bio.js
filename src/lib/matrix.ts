@@ -59,3 +59,48 @@ export function moveColumn<T>(array: T[][], index: number, to: number) {
 		return newRow;
 	});
 }
+
+/**
+ * Move a cell to a new position in a 2D array and return as a new array. If the index is negative, the cell will be moved from the end of the array.
+ * If the new position is outside the bounds of the array, the array will be resized to fit the new position.
+ * @param array The array to move the cell in
+ * @param fromRow The row index of the cell to move. If negative, the index will be counted from the end of the array.
+ * @param fromColumn The column index of the cell to move. If negative, the index will be counted from the end of the array.
+ * @param toRow The row index to move the cell to. If negative, the index will be counted from the end of the array.
+ * @param toColumn The column index to move the cell to. If negative, the index will be counted from the end of the array.
+ */
+export function moveCell<T>(array: T[][], fromRow: number, fromColumn: number, toRow: number, toColumn: number, defaultValue?: T) {
+	const absoluteFromRow = Math.abs(fromRow);
+	const absoluteFromColumn = Math.abs(fromColumn);
+	if (absoluteFromRow >= array.length) throw new RangeError(`From row index out of range`);
+	if (absoluteFromColumn >= array[absoluteFromRow].length) throw new RangeError(`From column index out of range`);
+
+	const fromRowIndex = fromRow < 0? array.length + fromRow: fromRow;
+	const fromColumnIndex = fromColumn < 0? array[fromRowIndex].length + fromColumn: fromColumn;
+	const toRowIndex = toRow < 0? array.length + toRow: toRow;
+	const toColumnIndex = toColumn < 0? array[toRowIndex].length + toColumn: toColumn;
+
+	const cell = array[fromRowIndex][fromColumnIndex];
+	const newArray = array.map((row, i) => {
+		if (i === fromRowIndex) return row.filter((_, j) => j !== fromColumnIndex);
+		return row;
+	});
+
+	// Add empty rows if neccessary
+	while (toRowIndex >= newArray.length) {
+		newArray.push([]);
+	}
+
+	// Add empty columns if neccessary
+	if (toColumnIndex > newArray[toRowIndex].length) {
+		const cells = toColumnIndex - newArray[toRowIndex].length + 1;
+		newArray[toRowIndex].push(...Array.from({ length: cells }, () => defaultValue as T));
+		newArray[toRowIndex][toColumnIndex] = cell;
+	}
+	else {
+		// Insert the cell at the new position
+		newArray[toRowIndex].splice(toColumnIndex, 0, cell);
+	}
+
+	return newArray;
+}
