@@ -104,3 +104,38 @@ export function moveCell<T>(array: T[][], fromRow: number, fromColumn: number, t
 
 	return newArray;
 }
+
+/**
+ * Ensure that every row in a 2D array has the same length by filling empty cells with a default value. Returns a new array.
+ * @param array The array to make rectangular
+ * @param defaultValue The value to fill empty cells with
+ * @returns A new rectangular array
+ */
+export function toRectangular<T>(array: T[][], defaultValue?: T) {
+	const maxColumns = Math.max(...array.map((row) => row.length));
+	return array.map((row) => {
+		const cells = maxColumns - row.length;
+		return [...row, ...Array.from({ length: cells }, () => defaultValue as T)];
+	});
+}
+
+/**
+ * Ensure that a 2D array has the same number of rows and columns by filling empty cells with a default value. Returns a new array.
+ * @param array The array to make square
+ * @param defaultValue The value to fill empty cells with
+ * @returns A new square array
+ */
+export function toSquare<T>(array: T[][], defaultValue?: T) {
+	if (array.length < 1) return array;
+
+	const rectangular = toRectangular(array, defaultValue);
+
+	const columns = rectangular[0].length;
+	const missingRows = columns - rectangular.length;
+	if (missingRows > 0) {
+		const cells = Array.from({ length: missingRows }, () => Array.from({ length: columns }, () => defaultValue as T));
+		rectangular.push(...cells);
+	}
+
+	return rectangular;
+}

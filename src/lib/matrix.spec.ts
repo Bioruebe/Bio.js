@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest";
-import { addColumn, moveCell, moveColumn, removeColumn } from "./matrix";
+import { addColumn, moveCell, moveColumn, removeColumn, toRectangular, toSquare } from "./matrix";
 
 
 describe("addColumn", () => {
@@ -263,5 +263,51 @@ describe("moveCell", () => {
 		const array = [[1, 2, 3], [4, 5, 6]];
 		const result = moveCell(array, 0, 0, 3, 0);
 		expect(result).toEqual([[2, 3], [4, 5, 6], [], [1]]);
+	});
+});
+
+describe("toRectangular", () => {
+	test("should return the same array if it is already rectangular", () => {
+		const array = [[1, 2, 3], [4, 5, 6], [7, 8, 9]];
+		const result = toRectangular(array);
+		expect(result).toEqual([[1, 2, 3], [4, 5, 6], [7, 8, 9]]);
+	});
+
+	test("should add empty cells to make the array rectangular", () => {
+		const array = [[1, 2], [3], [4, 5, 6, 7]];
+		const result = toRectangular(array, 0);
+		expect(result).toEqual([[1, 2, 0, 0], [3, 0, 0, 0], [4, 5, 6, 7]]);
+	});
+
+	test("should add empty cells to make the array rectangular with a custom default value", () => {
+		const array = [[1, 2], [3], [4, 5, 6, 7]];
+		const result = toRectangular(array, 10);
+		expect(result).toEqual([[1, 2, 10, 10], [3, 10, 10, 10], [4, 5, 6, 7]]);
+	});
+});
+
+describe("toSquare", () => {
+	test("should return the same array if it is already square", () => {
+		const array = [[1, 2, 3], [4, 5, 6], [7, 8, 9]];
+		const result = toSquare(array);
+		expect(result).toEqual([[1, 2, 3], [4, 5, 6], [7, 8, 9]]);
+	});
+
+	test("should return an empty array if the input is empty", () => {
+		const array: number[][] = [];
+		const result = toSquare(array);
+		expect(result).toEqual([]);
+	});
+
+	test("should add empty cells to make the array square", () => {
+		const array = [[1, 2], [3], [4, 5, 6, 7]];
+		const result = toSquare(array, 0);
+		expect(result).toEqual([[1, 2, 0, 0], [3, 0, 0, 0], [4, 5, 6, 7], [0, 0, 0, 0]]);
+	});
+
+	test("should add empty cells to make the array square with a custom default value", () => {
+		const array = [[1, 2], [3], [4, 5, 6, 7]];
+		const result = toSquare(array, 10);
+		expect(result).toEqual([[1, 2, 10, 10], [3, 10, 10, 10], [4, 5, 6, 7], [10, 10, 10, 10]]);
 	});
 });
