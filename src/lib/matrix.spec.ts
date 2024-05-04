@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest";
-import { addColumn, moveCell, moveColumn, removeColumn, toRectangular, toSquare } from "./matrix";
+import { addColumn, getColumn, moveCell, moveColumn, removeColumn, toRectangular, toSquare } from "./matrix";
 
 
 describe("addColumn", () => {
@@ -59,6 +59,65 @@ describe("addColumn", () => {
 	test("should throw an error if the index is out of range for any row", () => {
 		const array = [[1, 2, 3, 4], [5, 6, 7], [8, 9, 10, 11]];
 		expect(() => addColumn(array, 4, 10)).toThrowError(RangeError("Index out of range for row 1"));
+	});
+});
+
+describe("getColumn", () => {
+	test("should return a column from each row", () => {
+		const array = [[1, 2, 3], [4, 5, 6], [7, 8, 9]];
+		const result = getColumn(array, 1);
+		expect(result).toEqual([2, 5, 8]);
+	});
+
+	test("should return the first column from each row", () => {
+		const array = [[1, 2, 3], [4, 5, 6], [7, 8, 9]];
+		const result = getColumn(array, 0);
+		expect(result).toEqual([1, 4, 7]);
+	});
+
+	test("should return the last column from each row", () => {
+		const array = [[1, 2, 3], [4, 5, 6], [7, 8, 9]];
+		const result = getColumn(array, 2);
+		expect(result).toEqual([3, 6, 9]);
+	});
+
+	test("should return the last column from each row with a negative index", () => {
+		const array = [[1, 2, 3], [4, 5, 6], [7, 8, 9]];
+		const result = getColumn(array, -1);
+		expect(result).toEqual([3, 6, 9]);
+	});
+
+	test("should return a column from a single-row array", () => {
+		const array = [[1, 2, 3]];
+		const result = getColumn(array, 1);
+		expect(result).toEqual([2]);
+	});
+
+	test("should return a column from a single-column array", () => {
+		const array = [[1], [2], [3]];
+		const result = getColumn(array, 0);
+		expect(result).toEqual([1, 2, 3]);
+	});
+
+	test("should return an empty array if the input is empty", () => {
+		const array: number[][] = [];
+		const result = getColumn(array, 0);
+		expect(result).toEqual([]);
+	});
+
+	test("should throw an error if the index is out of range", () => {
+		const array = [[1, 2, 3], [4, 5, 6], [7, 8, 9]];
+		expect(() => getColumn(array, 3)).toThrowError(RangeError);
+	});
+
+	test("should throw an error if the negative index is out of range", () => {
+		const array = [[1, 2, 3]];
+		expect(() => getColumn(array, -3)).toThrowError(RangeError);
+	});
+
+	test("should throw an error if any row is shorter than the index", () => {
+		const array = [[1, 2, 3], [4, 5], [6, 7, 8]];
+		expect(() => getColumn(array, 2)).toThrowError(RangeError("Index out of range for row 1"));
 	});
 });
 

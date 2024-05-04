@@ -16,6 +16,22 @@ export function addColumn<T>(array: T[][], index: number, value?: T | T[]) {
 }
 
 /**
+ * Get a column from a 2D array and return as a new array. If the index is negative, the column will be taken from the end of the array.
+ * @param array The array to get a column from
+ * @param index The index of the column to get. If negative, the index will be counted from the end of the array.
+ * @returns A new array with the column values
+ */
+export function getColumn<T>(array: T[][], index: number) {
+	const absoluteIndex = Math.abs(index);
+
+	return array.map((row, i) => {
+		if (absoluteIndex >= row.length) throw new RangeError(`Index out of range for row ${i}`);
+
+		return row[index < 0? row.length + index: index];
+	});
+}
+
+/**
  * Remove a column from a 2D array and return as a new array. If the index is negative, the column will be removed from the end of the array.
  * @param array The array to remove the column from
  * @param index The index of the column to remove. If negative, the index will be counted from the end of the array.
