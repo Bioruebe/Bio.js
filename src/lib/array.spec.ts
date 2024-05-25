@@ -12,7 +12,8 @@ import {
 	sortByValue,
 	createChainedSortingFunction,
 	dynamicComparer,
-	dynamicComparerDescending
+	dynamicComparerDescending,
+	sortByValues
 } from "./array";
 
 
@@ -489,6 +490,42 @@ describe("sortByValue", () => {
 			{ id: 1, name: "Alice" },
 			{ id: 3, name: "Charlie", age: 30 }
 		]);
+	});
+});
+
+describe("sortByValues", () => {
+	test("should return the original array if the values array is empty", () => {
+		const arr = ["canceled", "completed", "in progress", "new"];
+		const sortedArr = arr.sort(sortByValues([] as string[]));
+		expect(sortedArr).toEqual(arr);
+	});
+
+	test("should sort a string array based on the given order", () => {
+		const values = ["new", "in progress", "completed", "canceled"];
+		const array = ["canceled", "completed", "in progress", "new"];
+		array.sort(sortByValues(values));
+		expect(array).toEqual(["new", "in progress", "completed", "canceled"]);
+	});
+
+	test("should sort a string array based on the given order, ignoring values not in the order", () => {
+		const values = ["new", "in progress", "completed", "canceled"];
+		const array = ["canceled", "completed", "in progress", "new", "unknown"];
+		array.sort(sortByValues(values));
+		expect(array).toEqual(["new", "in progress", "completed", "canceled", "unknown"]);
+	});
+
+	test("should sort a number array based on the given order", () => {
+		const values = [3, 1, 2];
+		const array = [1, 2, 3];
+		array.sort(sortByValues(values));
+		expect(array).toEqual([3, 1, 2]);
+	});
+
+	test("should sort a mixed array based on the given order", () => {
+		const values = ["new", 2, "completed", 1];
+		const array = [1, "completed", 2, "new"];
+		array.sort(sortByValues(values));
+		expect(array).toEqual(["new", 2, "completed", 1]);
 	});
 });
 

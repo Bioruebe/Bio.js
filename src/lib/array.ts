@@ -136,6 +136,34 @@ export function sortByValue<T>(key: keyof T, value: T[keyof T]) {
 }
 
 /**
+ * Returns a sorting function, which will sort an array based on the given literal order.
+ * If a value is not found in the order, it will be sorted to the bottom.
+ * 
+ * @example
+ * ```ts
+ * const values = ["new", "in progress", "completed", "canceled"];
+ * const array = ["canceled", "completed", "in progress"], "new";
+ * array.sort(sortByValues(values));
+ * // Result: ["new", "in progress", "completed", "canceled"]
+ * 
+ * @param values The desired order of values
+ * @returns A sorting function, which can be used with Array.sort()
+ */
+export function sortByValues<T>(values: T[]) {
+	return (a: T, b: T) => {
+		let indexA = values.indexOf(a);
+		let indexB = values.indexOf(b);
+
+		if (indexA < 0) indexA = values.length;
+		if (indexB < 0) indexB = values.length;
+
+		if (indexA > indexB) return 1;
+		if (indexA < indexB) return -1;
+		return 0;
+	};
+}
+
+/**
  * Creates a nested sorting function, which can be used with Array.sort().
  * This makes it possible to sort an array of objects by multiple properties, without having to create a custom sorting function.
  * @param functionDefinitions An array of sorting definitions. Each one is applied in the order they are given. See `SortingDefinition` for more information.
