@@ -1,5 +1,8 @@
 import { isNullOrUndefined } from "./value";
 
+/** Regular expression to match word characters (latin, greek, cyrillic, chinese, japanese, korean) */
+const REGEX_WORD_CHARACTERS = /[a-zA-Z0-9_\u0392-\u03c9\u0410-\u04F9]+|[\u4E00-\u9FFF\u3400-\u4dbf\uf900-\ufaff\u3040-\u309f\u30A0-\u30FF\uac00-\ud7af]|[\u3040-\u309f\u30A0-\u30FF]/g;
+
 /**
  * Capitalize the first letter of a string
  * @param str The string to capitalize
@@ -123,4 +126,25 @@ export function toBoolean(string: string) {
 	if (string === "false") return false;
 
 	return undefined;
+}
+
+/**
+ * Count the number of words in a string with support for Chinese, Japanese and Korean characters
+ * @param text The text to count words in
+ * @returns The number of words in the text
+ */
+export function wordCount(text: string) {
+	text = text.trim();
+	if (!text) return 0;
+
+	const match = text.match(REGEX_WORD_CHARACTERS);
+	if (match === null) return 0;
+	
+	let count = 0;
+	for (let i = 0; i < match.length; i++) {
+		// For Chinese, Japanese and Korean count each character as one word
+		count += match[i].charCodeAt(0) >= 0x4E00? match[i].length: 1;
+	}
+
+	return count;
 }

@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest";
-import { capitalize, compareCaseInsensitive, hasUpperCase, isUpperCase, lastStringBetween, nl2br, stringBetween, toBoolean } from "./string";
+import { capitalize, compareCaseInsensitive, hasUpperCase, isUpperCase, lastStringBetween, nl2br, stringBetween, toBoolean, wordCount } from "./string";
 
 
 const UPPER = "TEST";
@@ -208,5 +208,55 @@ describe("toBoolean", () => {
 		expect(toBoolean(1 as any)).toBeUndefined();
 		expect(toBoolean({} as any)).toBeUndefined();
 		expect(toBoolean([] as any)).toBeUndefined();
+	});
+});
+
+describe("wordCount", () => {
+	test("should return 0 for empty string", () => {
+		expect(wordCount("")).toBe(0);
+	});
+
+	test("should return 0 for string with only spaces", () => {
+		expect(wordCount("   ")).toBe(0);
+	});
+
+	test("should return 0 for only punctuation", () => {
+		expect(wordCount(".,;")).toBe(0);
+	});
+
+	test("should return 0 for only new lines", () => {
+		expect(wordCount("\n\n\n")).toBe(0);
+	});
+
+	test("should return 0 for non-printable characters", () => {
+		expect(wordCount("\x00\x01\x02")).toBe(0);
+	});
+
+	test("should return 0 for emoji", () => {
+		expect(wordCount("👍👎")).toBe(0);
+	});
+
+	test("should return 1 for single word", () => {
+		expect(wordCount("test")).toBe(1);
+	});
+
+	test("should return correct count for multiple words", () => {
+		expect(wordCount("Lorem ipsum dolor sit amet")).toBe(5);
+	});
+
+	test("should return correct count for Chinese characters", () => {
+		expect(wordCount("你好世界")).toBe(4);
+	});
+
+	test("should return correct count for Japanese characters", () => {
+		expect(wordCount("こんにちは世界")).toBe(7);
+	});
+
+	test("should return correct count for Korean characters", () => {
+		expect(wordCount("안녕하세요 세계")).toBe(7);
+	});
+
+	test("should return correct count for mixed characters", () => {
+		expect(wordCount("Hello, 你好!")).toBe(3);
 	});
 });
