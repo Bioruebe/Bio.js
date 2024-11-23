@@ -25,7 +25,7 @@
     "node": ">=10"
   },
   "devDependencies": {
-    "@types/node": "^18.15.11",
+    "@types/node": "^20.17.7",
     "@vitest/coverage-v8": "^2.1.2",
     "ts-node": "^10",
     "typedoc": "^0.24.1",
