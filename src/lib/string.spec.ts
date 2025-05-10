@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest";
-import { capitalize, compareCaseInsensitive, hasUpperCase, isUpperCase, lastStringBetween, nl2br, stringBetween, toBoolean, wordCount } from "./string";
+import { capitalize, compareCaseInsensitive, extractNumbers, hasUpperCase, isUpperCase, lastStringBetween, nl2br, stringBetween, toBoolean, wordCount } from "./string";
 
 
 const UPPER = "TEST";
@@ -57,6 +57,54 @@ describe("compareCaseInsensitive", () => {
 		expect(compareCaseInsensitive(UPPER, OTHER)).toBe(false);
 		expect(compareCaseInsensitive(LOWER, OTHER)).toBe(false);
 		expect(compareCaseInsensitive(MIXED, OTHER)).toBe(false);
+	});
+});
+
+describe("extractNumbers", () => {
+	test("should return an empty array for an empty string", () => {
+		expect(extractNumbers("")).toEqual([]);
+	});
+
+	test("should return an empty array for a string without numbers", () => {
+		expect(extractNumbers(LOWER)).toEqual([]);
+	});
+
+	test("should extract integers", () => {
+		expect(extractNumbers("test 123 test")).toEqual([123]);
+	});
+
+	test("should extract negative integers", () => {
+		expect(extractNumbers("test -123 test")).toEqual([-123]);
+	});
+
+	test("should extract floating point numbers", () => {
+		expect(extractNumbers("test 1.23 test")).toEqual([1.23]);
+	});
+
+	test("should extract negative floating point numbers", () => {
+		expect(extractNumbers("test -1.23 test")).toEqual([-1.23]);
+	});
+
+	test("should extract multiple numbers", () => {
+		expect(extractNumbers("test 123 test 456")).toEqual([123, 456]);
+		expect(extractNumbers("test -123 test 456")).toEqual([-123, 456]);
+		expect(extractNumbers("test 1.23 test 4.56")).toEqual([1.23, 4.56]);
+		expect(extractNumbers("test -1.23 test 4.56")).toEqual([-1.23, 4.56]);
+	});
+
+	test("should handle non-string values", () => {
+		expect(extractNumbers(null as any)).toEqual([]);
+		expect(extractNumbers(undefined as any)).toEqual([]);
+		expect(extractNumbers(123 as any)).toEqual([123]);
+		expect(extractNumbers(true as any)).toEqual([]);
+		expect(extractNumbers(false as any)).toEqual([]);
+	});
+
+	test("should handle strings with only numbers", () => {
+		expect(extractNumbers("123")).toEqual([123]);
+		expect(extractNumbers("-123")).toEqual([-123]);
+		expect(extractNumbers("1.23")).toEqual([1.23]);
+		expect(extractNumbers("-1.23")).toEqual([-1.23]);
 	});
 });
 

@@ -3,6 +3,10 @@ import { isNullOrUndefined } from "./value";
 /** Regular expression to match word characters (latin, greek, cyrillic, chinese, japanese, korean) */
 const REGEX_WORD_CHARACTERS = /[a-zA-Z0-9_\u0392-\u03c9\u0410-\u04F9]+|[\u4E00-\u9FFF\u3400-\u4dbf\uf900-\ufaff\u3040-\u309f\u30A0-\u30FF\uac00-\ud7af]|[\u3040-\u309f\u30A0-\u30FF]/g;
 
+/** Regular expression to match numbers */
+const REGEX_NUMBERS = /-?\d+(\.\d+)?/g;
+
+
 /**
  * Capitalize the first letter of a string
  * @param str The string to capitalize
@@ -24,6 +28,21 @@ export function compareCaseInsensitive(a: string, b: string): boolean {
 	if (typeof a !== "string" || typeof b !== "string") return a == b;
 
 	return a.toLowerCase() == b.toLowerCase();
+}
+
+/**
+ * Extracts all numbers from a string.
+ * @param str The string to extract numbers from
+ * @returns An array of numbers found in the string
+ */
+export function extractNumbers(str: string): number[] {
+	if (!str) return [];
+	if (typeof str !== "string") str = `${str}`;
+
+	const numbers = str.match(REGEX_NUMBERS);
+	if (!numbers) return [];
+
+	return numbers.map((n) => parseFloat(n));
 }
 
 /**
@@ -58,7 +77,7 @@ export function isUpperCase(str: string): boolean {
 export function lastStringBetween(str: string, start: string, end: string) {
 	let startPos = -1;
 	let endPos = -1;
-	
+
 	if (start == end) {
 		endPos = str.lastIndexOf(end);
 		if (endPos < 0) return "";
@@ -139,7 +158,7 @@ export function wordCount(text: string) {
 
 	const match = text.match(REGEX_WORD_CHARACTERS);
 	if (match === null) return 0;
-	
+
 	let count = 0;
 	for (let i = 0; i < match.length; i++) {
 		// For Chinese, Japanese and Korean count each character as one word
