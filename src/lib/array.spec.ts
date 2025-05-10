@@ -124,7 +124,7 @@ describe("createChainedSortingFunction", () => {
 		const sorted = data.sort(sortingFunction);
 		expect(sorted).toEqual(expected);
 	});
-	
+
 	test("should allow custom sorting functions to be used", () => {
 		const data = [
 			{ id: 2, name: "Bob" },
@@ -179,7 +179,7 @@ describe("createChainedSortingFunction", () => {
 		const result = data.sort(sortFn);
 		expect(result).toEqual(expected);
 	});
-	
+
 	test("should handle objects with null or undefined properties", () => {
 		const data = [
 			{ id: 2, name: null },
@@ -460,6 +460,16 @@ describe("sortByValue", () => {
 		]);
 	});
 
+	test("should sort descending if the parameter is true", () => {
+		const sortedArr = arr.sort(sortByValue("name", "Alice", "DESC"));
+		expect(sortedArr).toEqual([
+			{ id: 2, name: "Bob" },
+			{ id: 3, name: "Charlie" },
+			{ id: 1, name: "Alice" },
+			{ id: 4, name: "Alice" }
+		]);
+	});
+
 	test("should sort objects with the given value to the top, then sort by another key", () => {
 		const multiPropertyArr = [
 			{ id: 1, name: "Alice", age: 25 },
@@ -473,6 +483,23 @@ describe("sortByValue", () => {
 			{ id: 1, name: "Alice", age: 25 },
 			{ id: 4, name: "Alice", age: 35 },
 			{ id: 2, name: "Bob", age: 50 }
+		]);
+	});
+
+	test("should sort objects with the given value to the bottom, then sort by another key", () => {
+		const multiPropertyArr = [
+			{ id: 1, name: "Alice", age: 25 },
+			{ id: 2, name: "Bob", age: 50 },
+			{ id: 3, name: "Charlie", age: 30 },
+			{ id: 4, name: "Alice", age: 35 },
+		];
+
+		const sortedArr = multiPropertyArr.sort(sortByValue("name", "Alice", "DESC")).sort(sortByValue("age", 30, "DESC"));
+		expect(sortedArr).toEqual([
+			{ id: 2, name: "Bob", age: 50 },
+			{ id: 1, name: "Alice", age: 25 },
+			{ id: 4, name: "Alice", age: 35 },
+			{ id: 3, name: "Charlie", age: 30 }
 		]);
 	});
 

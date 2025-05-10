@@ -122,14 +122,23 @@ export function removeDuplicatesBy<T extends Object>(array: T[], accessor: strin
  * @param key The property to sort by
  * @param value The desired value to match
  * @returns A sorting function, which can be used with Array.sort()
+ * @example
+ * ```ts
+ * const sortingFunction = sortByValue("state", "new");
+ * array.sort(sortingFunction);
+ * // All objects with state "new" will be at the top of the array.
+ * // The order of the other objects remains unchanged.
+ * ```
  */
-export function sortByValue<T>(key: keyof T, value: T[keyof T]) {
+export function sortByValue<T>(key: keyof T, value: T[keyof T], direction: "ASC" | "DESC" = "ASC") {
+	const descending = direction === "DESC";
+
 	return (a: T, b: T) => {
 		let aEqual = (a[key] == value);
 		let bEqual = (b[key] == value);
 
-		if (aEqual && !bEqual) return -1;
-		if (!aEqual && bEqual) return 1;
+		if (aEqual && !bEqual) return descending? 1: -1;
+		if (!aEqual && bEqual) return descending? -1: 1;
 
 		return 0;
 	};
@@ -138,14 +147,14 @@ export function sortByValue<T>(key: keyof T, value: T[keyof T]) {
 /**
  * Returns a sorting function, which will sort an array based on the given literal order.
  * If a value is not found in the order, it will be sorted to the bottom.
- * 
+ *
  * @example
  * ```ts
- * const values = ["new", "in progress", "completed", "canceled"];
- * const array = ["canceled", "completed", "in progress"], "new";
+ * const values = ["new", "in progress", "completed"];
+ * const array = ["canceled", "completed", "in progress", "new"];
  * array.sort(sortByValues(values));
  * // Result: ["new", "in progress", "completed", "canceled"]
- * 
+ *
  * @param values The desired order of values
  * @returns A sorting function, which can be used with Array.sort()
  */
