@@ -42,44 +42,44 @@
   ],
   "exports": {
     ".": {
+      "types": "./dist/esm/index.d.ts",
       "require": "./dist/cjs/index.js",
-      "import": "./dist/esm/index.js",
-      "types": "./dist/esm/index.d.ts"
+      "import": "./dist/esm/index.js"
     },
     "./array": {
+      "types": "./dist/esm/lib/array.d.ts",
       "require": "./dist/cjs/lib/array.js",
-      "import": "./dist/esm/lib/array.js",
-      "types": "./dist/esm/lib/array.d.ts"
+      "import": "./dist/esm/lib/array.js"
     },
     "./math": {
+      "types": "./dist/esm/lib/math.d.ts",
       "require": "./dist/cjs/lib/math.js",
-      "import": "./dist/esm/lib/math.js",
-      "types": "./dist/esm/lib/math.d.ts"
+      "import": "./dist/esm/lib/math.js"
     },
     "./matrix": {
+      "types": "./dist/esm/lib/matrix.d.ts",
       "require": "./dist/cjs/lib/matrix.js",
-      "import": "./dist/esm/lib/matrix.js",
-      "types": "./dist/esm/lib/matrix.d.ts"
+      "import": "./dist/esm/lib/matrix.js"
     },
     "./object": {
+      "types": "./dist/esm/lib/object.d.ts",
       "require": "./dist/cjs/lib/object.js",
-      "import": "./dist/esm/lib/object.js",
-      "types": "./dist/esm/lib/object.d.ts"
+      "import": "./dist/esm/lib/object.js"
     },
     "./promise": {
+      "types": "./dist/esm/lib/promise.d.ts",
       "require": "./dist/cjs/lib/promise.js",
-      "import": "./dist/esm/lib/promise.js",
-      "types": "./dist/esm/lib/promise.d.ts"
+      "import": "./dist/esm/lib/promise.js"
     },
     "./string": {
+      "types": "./dist/esm/lib/string.d.ts",
       "require": "./dist/cjs/lib/string.js",
-      "import": "./dist/esm/lib/string.js",
-      "types": "./dist/esm/lib/string.d.ts"
+      "import": "./dist/esm/lib/string.js"
     },
     "./value": {
+      "types": "./dist/esm/lib/value.d.ts",
       "require": "./dist/cjs/lib/value.js",
-      "import": "./dist/esm/lib/value.js",
-      "types": "./dist/esm/lib/value.d.ts"
+      "import": "./dist/esm/lib/value.js"
     }
   }
 }
