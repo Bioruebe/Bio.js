@@ -13,7 +13,8 @@ import {
 	createChainedSortingFunction,
 	dynamicComparer,
 	dynamicComparerDescending,
-	sortByValues
+	sortByValues,
+	shift
 } from "./array";
 
 
@@ -411,6 +412,56 @@ describe("removeEmpty", () => {
 	test("array with duplicates and empty values", () => {
 		const expected = ["test", 2, 5, "test", -1, 5];
 		expect(removeEmpty(mixedArray)).toEqual(expected);
+	});
+});
+
+describe("shift", () => {
+	test("should shift the array", () => {
+		const arr = [1, 2, 3, 4, 5];
+		const shifted = shift(arr, 2);
+		expect(shifted).toEqual([3, 4, 5, 1, 2]);
+	});
+
+	test("should shift the array with negative by value", () => {
+		const arr = [1, 2, 3, 4, 5];
+		const shifted = shift(arr, -2);
+		expect(shifted).toEqual([4, 5, 1, 2, 3]);
+	});
+
+	test("should return the same array if by is 0", () => {
+		const arr = [1, 2, 3, 4, 5];
+		const shifted = shift(arr, 0);
+		expect(shifted).toEqual(arr);
+	});
+
+	test("should return empty array if input is empty", () => {
+		const arr: number[] = [];
+		const shifted = shift(arr, 2);
+		expect(shifted).toEqual([]);
+	});
+
+	test("should use modulo if by is greater than the array length", () => {
+		const arr = [1, 2, 3, 4, 5];
+		const shifted = shift(arr, 7);
+		expect(shifted).toEqual([3, 4, 5, 1, 2]);
+	});
+
+	test("should use modulo if by is less than the negative array length", () => {
+		const arr = [1, 2, 3, 4, 5];
+		const shifted = shift(arr, -7);
+		expect(shifted).toEqual([4, 5, 1, 2, 3]);
+	});
+
+	test("should return the same array if by is equal to the array length", () => {
+		const arr = [1, 2, 3, 4, 5];
+		const shifted = shift(arr, arr.length);
+		expect(shifted).toEqual(arr);
+	});
+
+	test("should return the same array if by is equal to the negative array length", () => {
+		const arr = [1, 2, 3, 4, 5];
+		const shifted = shift(arr, -arr.length);
+		expect(shifted).toEqual(arr);
 	});
 });
 

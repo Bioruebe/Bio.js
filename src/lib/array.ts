@@ -117,6 +117,19 @@ export function removeDuplicatesBy<T extends Object>(array: T[], accessor: strin
 }
 
 /**
+ * Shifts the elements of an array by a specified number of positions.
+ * @param arr The array to shift
+ * @param by The number of positions to shift the array
+ * @returns A new array with the elements shifted
+ */
+export function shift<T>(arr: T[], by: number) {
+	if (arr.length < 1) return arr;
+
+	if (Math.abs(by) > arr.length) by = by % arr.length;
+	return arr.slice(by).concat(arr.slice(0, by));
+}
+
+/**
  * Returns a sorting function, which will sort objects based on the given property and value:
  * if one object matches the value while the other doesn't, it will be sorted to the top
  * @param key The property to sort by
