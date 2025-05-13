@@ -74,6 +74,24 @@ describe("createChainedSortingFunction", () => {
 		expect(result).toEqual(expected);
 	});
 
+	test("should sort by value of key in object with descending order", () => {
+		const input = [
+			{ age: 30, verified: true },
+			{ age: 20, verified: false },
+			{ age: 40, verified: true },
+			{ age: 20, verified: true }
+		];
+		const expected = [
+			{ age: 40, verified: true },
+			{ age: 30, verified: true },
+			{ age: 20, verified: true },
+			{ age: 20, verified: false }
+		];
+		const sortingFunction = createChainedSortingFunction([["verified", false, "DESC"], "-age"]);
+		const result = input.sort(sortingFunction);
+		expect(result).toEqual(expected);
+	});
+
 	test("should sort by multiple properties with ascending order", () => {
 		const data = [
 			{ name: "Bob", age: 30, score: 80 },
@@ -201,6 +219,7 @@ describe("createChainedSortingFunction", () => {
 		expect(() => createChainedSortingFunction([123 as any])).toThrowError("Invalid sorting function: 123");
 		expect(() => createChainedSortingFunction(["", { foo: "bar" } as any])).toThrowError("Invalid sorting function:");
 		expect(() => createChainedSortingFunction([{ foo: "bar" }, () => {}] as any)).toThrowError("Invalid sorting function:");
+		expect(() => createChainedSortingFunction([["foo", "bar", "ASC", "baz"] as any])).toThrowError("Invalid sorting function:");
 	});
 
 	test("should keep original order if all sorting functions return 0", () => {

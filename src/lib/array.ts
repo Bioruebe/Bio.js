@@ -6,6 +6,12 @@ import { isEmpty, isNullOrUndefined } from "./value";
 /** An object */
 type Object = Record<string, any>;
 
+/** A sorting direction, either ascending or descending */
+type SortingDirection = "ASC" | "DESC";
+
+/** Sorting parameters used by `sortByValue` and `createChainedSortingFunction` */
+type SortByValueParameters = [string, any] | [string, any, SortingDirection];
+
 /** A sorting function, which can be used with Array.sort() */
 export type SortingFunction = (a: Object, b: Object) => number;
 
@@ -16,7 +22,7 @@ export type SortingFunction = (a: Object, b: Object) => number;
  * - a sorting function, which follows the same rules as the sorting function in Array.sort()
  * - a tuple with the property name and the desired value - if one object matches the value while the other doesn't, it will be sorted to the top
  */
-export type SortingDefinition = string | [string, any] | ((a: Object, b: Object) => -1 | 0 | 1);
+export type SortingDefinition = string | SortByValueParameters | ((a: Object, b: Object) => -1 | 0 | 1);
 
 
 /**
@@ -143,7 +149,7 @@ export function shift<T>(arr: T[], by: number) {
  * // The order of the other objects remains unchanged.
  * ```
  */
-export function sortByValue<T>(key: keyof T, value: T[keyof T], direction: "ASC" | "DESC" = "ASC") {
+export function sortByValue<T>(key: keyof T, value: T[keyof T], direction: SortingDirection = "ASC") {
 	const descending = direction === "DESC";
 
 	return (a: T, b: T) => {
@@ -204,8 +210,9 @@ export function createChainedSortingFunction(functionDefinitions: SortingDefinit
 	const sortFunctions = functionDefinitions.map((f) => {
 		switch (typeof f) {
 			case "object":
-				if (!Array.isArray(f) || f.length !== 2) throw new Error("Invalid sorting function: " + f);
-				return sortByValue(f[0], f[1]);
+				if (!Array.isArray(f) || f.length < 2 || f.length > 3) throw new Error("Invalid sorting function: " + f);
+				const direction = (f.length === 3)? f[2]: "ASC";
+				return sortByValue(f[0], f[1], direction);
 			case "string":
 				// Shorthand for descending sort order
 				if (f.startsWith("-")) return getPropertySorter(f.substring(1), dynamicComparerDescending);
